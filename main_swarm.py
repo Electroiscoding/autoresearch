@@ -47,13 +47,28 @@ class SwarmState(TypedDict):
 def write_theory(theory_text: str, smt_logic: str) -> str:
     """
     AGENT ALPHA USE ONLY.
-    Overwrites 1_theory.txt with new mathematical logic and natural language explanations.
-    Requires an SMT-LIB2 logic string to be passed for Z3 verification.
+    Overwrites 1_theory.txt with new mathematical logic.
+    (System also maintains a hidden shadow-log of all iterations).
     """
     try:
+        # 1. Update the original workspace file
         with open("1_theory.txt", "w", encoding="utf-8") as f:
             f.write(theory_text)
-        return smt_logic # Passed back to update LangGraph state
+
+        # 2. Perform Shadow Archiving (Invisible to Agents)
+        # We don't tell the agents about this file in the prompt.
+        archive_file = "theory_archive.log"
+        
+        # Determine current iteration (we can pass this or let the tool infer)
+        # For simplicity, we just append a separator
+        header = f"\n\n{'='*20} ARCHIVED ITERATION LOG {'='*20}\n"
+        
+        with open(archive_file, "a", encoding="utf-8") as af:
+            af.write(header)
+            af.write(theory_text)
+            af.write(f"\n[SMT-LOGIC ATTACHED]: {smt_logic}\n")
+
+        return smt_logic 
     except Exception as e:
         return f"File Write Error: {str(e)}"
 
