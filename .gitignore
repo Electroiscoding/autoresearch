@@ -21,3 +21,8 @@ dev/
 
 # Results file
 results.tsv
+.env
+
+swarm_memory.sqlite
+swarm_memory.sqlite-shm
+swarm_memory.sqlite-wal

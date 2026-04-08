@@ -1,0 +1,8 @@
+langgraph
+langgraph-checkpoint-sqlite
+langchain-openai
+langchain-core
+z3-solver
+numpy
+torch
+python-dotenv
